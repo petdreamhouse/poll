@@ -1,0 +1,70 @@
+<html>
+<head>
+
+</head>
+<body>
+<script>
+var xmlHttp
+
+function getVote(int)
+{
+xmlHttp=GetXmlHttpObject()
+if (xmlHttp==null)
+ {
+ alert ("Browser does not support HTTP Request")
+ return
+ } 
+var url="http://pdh-pms-p.cloudapp.net:8080/poll_vote.php"
+url=url+"?vote="+int
+url=url+"&sid="+Math.random()
+xmlHttp.onreadystatechange=stateChanged
+xmlHttp.open("GET",url,true)
+xmlHttp.send(null)
+}
+function stateChanged() 
+{ 
+ if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete")
+ { 
+ document.getElementById("poll").innerHTML=xmlHttp.responseText;
+ } 
+} 
+
+function GetXmlHttpObject()
+{ 
+var objXMLHttp=null
+if (window.XMLHttpRequest)
+ {
+ objXMLHttp=new XMLHttpRequest()
+ }
+else if (window.ActiveXObject)
+ {
+ objXMLHttp=new ActiveXObject("Microsoft.XMLHTTP")
+ }
+return objXMLHttp
+}
+</script>
+
+<div id="poll_js">
+<h2>poll using js?</h2>
+<form>
+Yes: 
+<input type="radio" name="vote" 
+value="0" onclick="getVote(this.value)">
+<br />
+No: 
+<input type="radio" name="vote" 
+value="1" onclick="getVote(this.value)">
+</form>
+</div>
+
+<div id="poll">
+<h2>poll using html?</h2>
+
+
+<a href="http://pdh-pms-p.cloudapp.net:8080/poll_vote.php?vote=1">1</a>
+<br />
+<br />
+<a href="http://pdh-pms-p.cloudapp.net:8080/poll_vote.php?vote=0">0</a>
+
+</body>
+</html>
